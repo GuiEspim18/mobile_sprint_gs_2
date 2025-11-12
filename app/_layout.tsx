@@ -1,24 +1,54 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Redirect, Slot, useSegments } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const segments = useSegments();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+  // Verifica login salvo
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const token = await AsyncStorage.getItem("userToken");
+        setIsLoggedIn(!!token);
+      } catch (error) {
+        console.error("Erro ao verificar login:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkLogin();
+  }, []);
+
+  // Mostra um loading enquanto verifica o estado de login
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff",
+        }}
+      >
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
+
+  const isInAuthGroup = segments[0] === "(auth)";
+
+  if (!isLoggedIn && !isInAuthGroup) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
+  if (isLoggedIn && isInAuthGroup) {
+    return <Redirect href="/(tabs)" />;
+  }
+
+  return <Slot />;
 }
