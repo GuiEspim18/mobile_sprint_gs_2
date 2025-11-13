@@ -13,6 +13,7 @@ export default function RootLayout() {
     const checkLogin = async () => {
       try {
         const token = await AsyncStorage.getItem("userToken");
+        console.log("userToken:", token);
         setIsLoggedIn(!!token);
       } catch (error) {
         console.error("Erro ao verificar login:", error);

@@ -2,6 +2,8 @@ import { InterestsCard } from '@/components/Profile/InterestsCard';
 import { LogoutButton } from '@/components/Profile/LogoutButton';
 import { ProfileHeader } from '@/components/Profile/ProfileHeader';
 import { StatsCard } from '@/components/Profile/StatsCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import BaseScreen from '../../components/BaseScreen';
@@ -15,6 +17,17 @@ const ProfileScreen: React.FC = () => {
     completedCourses: 5,
     hoursSpent: 42,
     interests: ['Inteligência Artificial', 'Sustentabilidade', 'Soft Skills'],
+  };
+
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken'); // remove o token
+      router.replace('/(auth)/login'); // redireciona para login
+    } catch (error) {
+      console.error('Erro ao deslogar:', error);
+    }
   };
 
   return (
@@ -32,7 +45,7 @@ const ProfileScreen: React.FC = () => {
         </Text>
         <InterestsCard interests={userData.interests} onEdit={() => console.log('Editar interesses')} />
 
-        <LogoutButton onPress={() => console.log('Logout simulado')} />
+        <LogoutButton onPress={handleLogout} />
       </ScrollView>
     </BaseScreen>
   );
