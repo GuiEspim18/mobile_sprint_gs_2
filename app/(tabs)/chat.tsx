@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import BaseScreen from "@/components/BaseScreen";
 import { enviarMensagemIA } from "@/services/aiService";
 
 export default function ChatOrientadorScreen() {
@@ -46,50 +47,52 @@ export default function ChatOrientadorScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Assistente de Carreira</Text>
+    <BaseScreen title="Assistente de Carreira">
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={90}
+      >
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            style={styles.chatContainer}
+            contentContainerStyle={{ paddingBottom: 30 }}
+          >
+            {history.map((msg, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.bubble,
+                  msg.role === "user"
+                    ? styles.userBubble
+                    : styles.assistantBubble,
+                ]}
+              >
+                <Text style={styles.bubbleText}>{msg.content}</Text>
+              </View>
+            ))}
 
-        <ScrollView
-          style={styles.chatContainer}
-          contentContainerStyle={{ paddingBottom: 30 }}
-        >
-          {history.map((msg, index) => (
-            <View
-              key={index}
-              style={[
-                styles.bubble,
-                msg.role === "user"
-                  ? styles.userBubble
-                  : styles.assistantBubble,
-              ]}
-            >
-              <Text style={styles.bubbleText}>{msg.content}</Text>
-            </View>
-          ))}
+            {loading && (
+              <ActivityIndicator size="large" style={{ marginTop: 10 }} />
+            )}
+          </ScrollView>
 
-          {loading && (
-            <ActivityIndicator size="large" style={{ marginTop: 10 }} />
-          )}
-        </ScrollView>
+          {/* INPUT FIXO */}
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={mensagem}
+              onChangeText={setMensagem}
+              placeholder="Digite sua pergunta..."
+              style={styles.input}
+            />
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={mensagem}
-            onChangeText={setMensagem}
-            placeholder="Digite sua pergunta..."
-            style={styles.input}
-          />
-
-          <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-            <Text style={styles.sendText}>➤</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+              <Text style={styles.sendText}>➤</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </BaseScreen>
   );
 }
 

@@ -20,16 +20,12 @@ export default function ProfileScreen() {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  // modal states
   const [modalVisible, setModalVisible] = useState(false);
   const [modalValue, setModalValue] = useState("");
   const [modalType, setModalType] = useState<"name" | "password" | null>(null);
 
   const router = useRouter();
 
-  // ---------------------------
-  // BUSCA DADOS DO USUÁRIO
-  // ---------------------------
   const fetchUser = async () => {
     try {
       const user = auth.currentUser;
@@ -58,9 +54,6 @@ export default function ProfileScreen() {
     fetchUser();
   }, []);
 
-  // ---------------------------
-  // MODAL HANDLERS
-  // ---------------------------
 
   const openNameModal = () => {
     setModalType("name");
@@ -99,24 +92,15 @@ export default function ProfileScreen() {
     setModalVisible(false);
   };
 
-  // ---------------------------
-  // LOGOUT
-  // ---------------------------
   const handleLogout = async () => {
     await signOut(auth);
     router.replace("/(auth)/login");
   };
 
-  // ---------------------------
-  // LOADING
-  // ---------------------------
   if (loading) {
     return <ActivityIndicator size="large" style={{ marginTop: 50 }} />;
   }
 
-  // ---------------------------
-  // COMPONENT
-  // ---------------------------
   return (
     <BaseScreen title="Meu Perfil">
       <ScrollView contentContainerStyle={styles.container}>
@@ -144,7 +128,6 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* UNIVERSAL MODAL */}
       <InputModal
         visible={modalVisible}
         title={modalType === "name" ? "Alterar Nome" : "Alterar Senha"}
