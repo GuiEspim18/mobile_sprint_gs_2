@@ -1,5 +1,5 @@
 import BaseScreen from '@/components/BaseScreen';
-import { AssessmentCard } from '@/components/Home/AssessmentCard';
+import { ChatCard } from '@/components/Home/ChatCard';
 import { ODSCard } from '@/components/Home/ODSCard';
 import { ProgressCard } from '@/components/Home/ProgressCard';
 import { RecommendationCard } from '@/components/Home/RecommendationCard';
@@ -15,7 +15,7 @@ export default function HomeScreen() {
           progress={75}
         />
 
-        <AssessmentCard />
+        <ChatCard />
 
         <Text style={{ fontSize: 18, fontWeight: 'bold', marginVertical: 24 }}>Recomendações da IA</Text>
         <RecommendationCard

@@ -10,13 +10,13 @@ const Colors = {
 
 const Spacing = { small: 8, medium: 16, large: 24 };
 
-export const AssessmentCard: React.FC = () => {
+export const ChatCard: React.FC = () => {
   const router = useRouter();
   return (
-    <TouchableOpacity style={styles.card} onPress={() => router.push("/autoavaliacao")}>
-      <Text style={styles.title}>Autoavaliação de Competências</Text>
-      <Text style={styles.body}>Descubra suas lacunas e receba recomendações personalizadas.</Text>
-      <Text style={styles.action}>Iniciar Avaliação &gt;</Text>
+    <TouchableOpacity style={styles.card} onPress={() => router.push("/chat")}>
+      <Text style={styles.title}>Chat com a IA</Text>
+      <Text style={styles.body}>Tire dúvidas ou peça sugestão para nosso agente.</Text>
+      <Text style={styles.action}>Conversar com a IA &gt;</Text>
     </TouchableOpacity>
   );
 };
