@@ -1,15 +1,15 @@
 import { auth } from "@/services/firebaseConfig";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
-  Alert,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 const Colors = {
@@ -29,34 +29,44 @@ const Spacing = {
   extraLarge: 32,
 };
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
+  const handleRegister = async () => {
+    if (!email || !password || !confirm) {
       Alert.alert("Erro", "Preencha todos os campos!");
+      return;
+    }
+
+    if (password !== confirm) {
+      Alert.alert("Erro", "As senhas não coincidem!");
       return;
     }
 
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
 
-      Alert.alert("Bem-vindo!", "Login realizado com sucesso!");
+      Alert.alert("Conta criada!", "Seu cadastro foi realizado com sucesso!");
+      router.replace("/(tabs)");
 
     } catch (error: any) {
       console.log("Erro Firebase:", error);
 
-      let message = "Erro ao fazer login.";
+      let message = "Erro ao criar a conta.";
 
-      if (error.code === "auth/invalid-email") message = "E-mail inválido.";
-      if (error.code === "auth/user-not-found") message = "Usuário não encontrado.";
-      if (error.code === "auth/wrong-password") message = "Senha incorreta.";
-      if (error.code === "auth/invalid-credential") message = "Credenciais inválidas.";
+      if (error.code === "auth/email-already-in-use")
+        message = "Este e-mail já está em uso.";
+      if (error.code === "auth/invalid-email")
+        message = "E-mail inválido.";
+      if (error.code === "auth/weak-password")
+        message = "A senha deve ter pelo menos 6 caracteres.";
 
       Alert.alert("Erro", message);
     } finally {
@@ -66,10 +76,8 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logoText}>SkillUpPlus 2030+</Text>
-      <Text style={styles.subtitle}>
-        Requalificação para o futuro do trabalho
-      </Text>
+      <Text style={styles.logoText}>Criar Conta</Text>
+      <Text style={styles.subtitle}>Preencha seus dados para continuar</Text>
 
       <View style={styles.form}>
         <TextInput
@@ -91,7 +99,16 @@ export default function LoginScreen() {
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity activeOpacity={0.8} onPress={handleLogin}>
+        <TextInput
+          style={styles.input}
+          placeholder="Confirmar Senha"
+          placeholderTextColor={Colors.textSecondary}
+          secureTextEntry
+          value={confirm}
+          onChangeText={setConfirm}
+        />
+
+        <TouchableOpacity activeOpacity={0.8} onPress={handleRegister}>
           <LinearGradient
             colors={[Colors.buttonGradientStart, Colors.buttonGradientEnd]}
             start={{ x: 0, y: 0 }}
@@ -99,19 +116,17 @@ export default function LoginScreen() {
             style={styles.buttonPrimary}
           >
             <Text style={styles.buttonPrimaryText}>
-              {loading ? "Entrando..." : "ENTRAR"}
+              {loading ? "Criando..." : "CRIAR CONTA"}
             </Text>
           </LinearGradient>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.buttonSecondary}
-          onPress={() =>
-            router.push("/(auth)/register")
-          }
+          onPress={() => router.push("/(auth)/login")}
         >
           <Text style={styles.buttonSecondaryText}>
-            Criar Conta / Esqueci a Senha
+            Já tenho uma conta
           </Text>
         </TouchableOpacity>
       </View>
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textSecondary,
     textAlign: "center",
-    marginBottom: Spacing.extraLarge * 1.5,
+    marginBottom: Spacing.extraLarge * 1.3,
   },
   form: {
     gap: Spacing.medium,

@@ -30,7 +30,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="assessment"
+        name="chat"
         options={{
           title: 'Avaliação',
           tabBarIcon: ({ color, size }) => <Ionicons name="checkmark-done-circle" size={size} color={color} />,

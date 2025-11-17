@@ -2,14 +2,15 @@ import { InterestsCard } from '@/components/Profile/InterestsCard';
 import { LogoutButton } from '@/components/Profile/LogoutButton';
 import { ProfileHeader } from '@/components/Profile/ProfileHeader';
 import { StatsCard } from '@/components/Profile/StatsCard';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/AuthContext'; // <- IMPORTANTE
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import BaseScreen from '../../components/BaseScreen';
 import { Spacing } from '../../styles/GlobalStyles';
 
 const ProfileScreen: React.FC = () => {
+  const { logout } = useAuth(); // <- pega o logout do AuthContext
+
   const userData = {
     name: 'Usuário SkillUp',
     email: 'usuario@exemplo.com',
@@ -19,14 +20,12 @@ const ProfileScreen: React.FC = () => {
     interests: ['Inteligência Artificial', 'Sustentabilidade', 'Soft Skills'],
   };
 
-  const router = useRouter();
-
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem('userToken'); // remove o token
-      router.replace('/(auth)/login'); // redireciona para login
+      await logout(); // <-- Logout REAL do Firebase
+      // ❗ NADA de router.replace aqui — AuthContext já redireciona sozinho
     } catch (error) {
-      console.error('Erro ao deslogar:', error);
+      console.error("Erro ao deslogar:", error);
     }
   };
 
