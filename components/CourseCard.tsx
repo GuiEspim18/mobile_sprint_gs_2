@@ -1,6 +1,7 @@
 import { Course } from '@/types/Course';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Card from './Card';
 
 const Colors = {
   primary: "#007AFF",
@@ -17,7 +18,7 @@ const Spacing = {
 };
 
 export const CourseCard: React.FC<Course> = ({ title, description, progress }) => (
-  <View style={styles.card}>
+  <Card>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.body}>{description}</Text>
     <View style={styles.progressContainer}>
@@ -27,7 +28,7 @@ export const CourseCard: React.FC<Course> = ({ title, description, progress }) =
     <TouchableOpacity style={[styles.buttonPrimary, styles.smallButton]}>
       <Text style={styles.buttonPrimaryText}>Continuar</Text>
     </TouchableOpacity>
-  </View>
+  </Card>
 );
 
 const styles = StyleSheet.create({

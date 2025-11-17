@@ -8,12 +8,12 @@ import {
   Alert,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+  Text
 } from "react-native";
 
 import BaseScreen from "@/components/BaseScreen";
+import { PrimaryButton } from "@/components/Button";
+import Card from "@/components/Card";
 import InputModal from "@/components/InputModal";
 
 export default function ProfileScreen() {
@@ -40,8 +40,6 @@ export default function ProfileScreen() {
 
       if (snapshot.exists()) {
         setUserData(snapshot.data());
-      } else {
-        console.log("Nenhum documento encontrado.");
       }
     } catch (error) {
       console.log("Erro ao buscar usuário:", error);
@@ -53,7 +51,6 @@ export default function ProfileScreen() {
   useEffect(() => {
     fetchUser();
   }, []);
-
 
   const openNameModal = () => {
     setModalType("name");
@@ -104,28 +101,26 @@ export default function ProfileScreen() {
   return (
     <BaseScreen title="Meu Perfil">
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.card}>
+
+        {/* CARD */}
+        <Card>
           <Text style={styles.label}>Nome</Text>
           <Text style={styles.value}>{userData?.name}</Text>
 
           <Text style={styles.label}>Email</Text>
           <Text style={styles.value}>{userData?.email}</Text>
-        </View>
+        </Card>
 
-        <TouchableOpacity style={styles.button} onPress={openNameModal}>
-          <Text style={styles.buttonText}>Editar Nome</Text>
-        </TouchableOpacity>
+        {/* BOTÕES */}
+        <PrimaryButton title="Editar Nome" onPress={openNameModal} />
 
-        <TouchableOpacity style={styles.button} onPress={openPasswordModal}>
-          <Text style={styles.buttonText}>Alterar Senha</Text>
-        </TouchableOpacity>
+        <PrimaryButton title="Alterar Senha" onPress={openPasswordModal} />
 
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#E53935" }]}
+        <PrimaryButton
+          title="Sair"
           onPress={handleLogout}
-        >
-          <Text style={styles.buttonText}>Sair</Text>
-        </TouchableOpacity>
+          variant="danger" // se você tiver suporte a variantes
+        />
       </ScrollView>
 
       <InputModal
@@ -150,30 +145,22 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFF",
     padding: 20,
-    borderRadius: 12,
+    borderRadius: 14,
     marginBottom: 30,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
     elevation: 2,
   },
   label: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#888",
-    marginTop: 10,
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#666",
+    marginTop: 12,
   },
   value: {
     fontSize: 16,
-    marginBottom: 5,
-    color: "#000",
-  },
-  button: {
-    backgroundColor: "#4a63ff",
-    padding: 14,
-    borderRadius: 10,
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#FFF",
-    fontWeight: "600",
+    marginBottom: 6,
+    color: "#111",
   },
 });

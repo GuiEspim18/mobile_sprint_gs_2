@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Card from './Card';
 
 const Colors = {
   primary: "#007AFF",
@@ -16,13 +17,13 @@ interface RecommendationCardProps {
 }
 
 export const RecommendationCard: React.FC<RecommendationCardProps> = ({ title, description }) => (
-  <View style={styles.card}>
+  <Card>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.body}>{description}</Text>
     <TouchableOpacity style={styles.buttonPrimary}>
       <Text style={styles.buttonPrimaryText}>Ver Curso</Text>
     </TouchableOpacity>
-  </View>
+  </Card>
 );
 
 const styles = StyleSheet.create({

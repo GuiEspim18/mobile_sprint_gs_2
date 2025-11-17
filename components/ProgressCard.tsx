@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Card from './Card';
 
 const Colors = {
   secondary: "#34C759",
@@ -17,7 +18,7 @@ interface ProgressCardProps {
 }
 
 export const ProgressCard: React.FC<ProgressCardProps> = ({ progress, title, description }) => (
-  <View style={styles.card}>
+  <Card>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.body}>{description}</Text>
 
@@ -26,7 +27,7 @@ export const ProgressCard: React.FC<ProgressCardProps> = ({ progress, title, des
     </View>
 
     <Text style={styles.caption}>{progress}% Concluído</Text>
-  </View>
+  </Card>
 );
 
 const styles = StyleSheet.create({

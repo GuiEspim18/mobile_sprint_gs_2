@@ -113,7 +113,7 @@ const GlobalStyles = StyleSheet.create<GlobalStylesType>({
     backgroundColor: Colors.card,
     borderRadius: 8,
     paddingHorizontal: Spacing.medium,
-    marginBottom: Spacing.medium,
+    // marginBottom: Spacing.medium,
     borderWidth: 1,
     borderColor: Colors.border,
     color: Colors.text,

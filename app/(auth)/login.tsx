@@ -1,44 +1,24 @@
-import { auth } from "@/services/firebaseConfig";
-import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Text, View } from "react-native";
 
-const Colors = {
-  primary: "#007AFF",
-  background: "#F7F8FA",
-  text: "#111",
-  textSecondary: "#777",
-  buttonGradientStart: "#007AFF",
-  buttonGradientEnd: "#00C6FF",
-  white: "#FFF",
-};
+import { PrimaryButton, SecondaryButton } from "@/components/Button";
+import Input from "@/components/Input";
 
-const Spacing = {
-  small: 8,
-  medium: 16,
-  large: 24,
-  extraLarge: 32,
-};
+import { auth } from "@/services/firebaseConfig";
+import { Theme } from "@/styles/theme";
 
 export default function LoginScreen() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert("Erro", "Preencha todos os campos!");
-      return;
+      return Alert.alert("Erro", "Preencha todos os campos!");
     }
 
     setLoading(true);
@@ -48,15 +28,18 @@ export default function LoginScreen() {
 
       Alert.alert("Bem-vindo!", "Login realizado com sucesso!");
 
+      router.replace("/(tabs)");
     } catch (error: any) {
       console.log("Erro Firebase:", error);
 
       let message = "Erro ao fazer login.";
 
       if (error.code === "auth/invalid-email") message = "E-mail inválido.";
-      if (error.code === "auth/user-not-found") message = "Usuário não encontrado.";
+      if (error.code === "auth/user-not-found")
+        message = "Usuário não encontrado.";
       if (error.code === "auth/wrong-password") message = "Senha incorreta.";
-      if (error.code === "auth/invalid-credential") message = "Credenciais inválidas.";
+      if (error.code === "auth/invalid-credential")
+        message = "Credenciais inválidas.";
 
       Alert.alert("Erro", message);
     } finally {
@@ -65,115 +48,62 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logoText}>SkillUpPlus 2030+</Text>
-      <Text style={styles.subtitle}>
+    <View style={{
+      flexGrow: 1,
+      justifyContent: "center",
+      padding: Theme.Spacing.large,
+      backgroundColor: Theme.Colors.background,
+    }}>
+      <Text
+        style={{
+          fontSize: Theme.Typography.header,
+          fontWeight: "bold",
+          color: Theme.Colors.primary,
+          textAlign: "center",
+          marginBottom: Theme.Spacing.small,
+        }}
+      >
+        SkillUpPlus 2030+
+      </Text>
+
+      <Text
+        style={{
+          fontSize: Theme.Typography.caption,
+          textAlign: "center",
+          color: Theme.Colors.textSecondary,
+          marginBottom: Theme.Spacing.xl,
+        }}
+      >
         Requalificação para o futuro do trabalho
       </Text>
 
-      <View style={styles.form}>
-        <TextInput
-          style={styles.input}
+        <View style={{ width: "100%" }}>
+        <Input
           placeholder="E-mail"
-          placeholderTextColor={Colors.textSecondary}
-          keyboardType="email-address"
-          autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
 
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Senha"
-          placeholderTextColor={Colors.textSecondary}
-          secureTextEntry
           value={password}
+          secureTextEntry
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity activeOpacity={0.8} onPress={handleLogin}>
-          <LinearGradient
-            colors={[Colors.buttonGradientStart, Colors.buttonGradientEnd]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.buttonPrimary}
-          >
-            <Text style={styles.buttonPrimaryText}>
-              {loading ? "Entrando..." : "ENTRAR"}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
+        
+        <PrimaryButton
+            title={loading ? "Entrando..." : "ENTRAR"}
+            onPress={handleLogin}
+        />
 
-        <TouchableOpacity
-          style={styles.buttonSecondary}
-          onPress={() =>
-            router.push("/(auth)/register")
-          }
-        >
-          <Text style={styles.buttonSecondaryText}>
-            Criar Conta / Esqueci a Senha
-          </Text>
-        </TouchableOpacity>
+        <SecondaryButton
+          title="Criar Conta"
+          onPress={() => router.push("/(auth)/register")}
+        />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: Spacing.extraLarge,
-    backgroundColor: Colors.background,
-  },
-  logoText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: Colors.primary,
-    textAlign: "center",
-    marginBottom: Spacing.small,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-    textAlign: "center",
-    marginBottom: Spacing.extraLarge * 1.5,
-  },
-  form: {
-    gap: Spacing.medium,
-  },
-  input: {
-    height: 50,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    paddingHorizontal: Spacing.medium,
-    fontSize: 16,
-    color: Colors.text,
-    backgroundColor: Colors.white,
-  },
-  buttonPrimary: {
-    borderRadius: 12,
-    paddingVertical: Spacing.medium,
-    alignItems: "center",
-    marginTop: Spacing.large,
-    shadowColor: "#007AFF",
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonPrimaryText: {
-    color: Colors.white,
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  buttonSecondary: {
-    marginTop: Spacing.medium,
-    alignItems: "center",
-  },
-  buttonSecondaryText: {
-    color: Colors.primary,
-    fontWeight: "600",
-  },
-});

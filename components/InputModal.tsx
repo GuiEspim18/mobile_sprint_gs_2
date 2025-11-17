@@ -1,4 +1,5 @@
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Input from "./Input";
 
 export default function InputModal({
   visible,
@@ -16,7 +17,7 @@ export default function InputModal({
         <View style={styles.box}>
           <Text style={styles.title}>{title}</Text>
 
-          <TextInput
+          <Input
             value={value}
             onChangeText={onChangeText}
             placeholder={placeholder}

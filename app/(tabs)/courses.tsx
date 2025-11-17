@@ -1,6 +1,6 @@
 import BaseScreen from '@/components/BaseScreen';
-import { CourseCard } from '@/components/Courses/CourseCard';
-import { SearchInput } from '@/components/Courses/SearchInput';
+import { CourseCard } from '@/components/CourseCard';
+import { SearchInput } from '@/components/SearchInput';
 import { Course } from '@/types/Course';
 import { useState } from 'react';
 import { ScrollView, Text } from 'react-native';
@@ -43,7 +43,12 @@ export default function CoursesScreen() {
 
   return (
     <BaseScreen title="Trilhas de Aprendizado">
-      <SearchInput value={searchText} onChangeText={setSearchText} placeholder="Buscar cursos..." />
+      <SearchInput
+        value={searchText}
+        onChangeText={setSearchText}
+        placeholder="Buscar cursos..."
+      />
+
       <ScrollView showsVerticalScrollIndicator={false}>
         {filteredCourses.map(course => (
           <CourseCard key={course.id} {...course} />

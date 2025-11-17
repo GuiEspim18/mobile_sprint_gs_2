@@ -1,18 +1,19 @@
 import { useState } from "react";
 import {
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 
 import BaseScreen from "@/components/BaseScreen";
 import { enviarMensagemIA } from "@/services/aiService";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import GlobalStyles from "@/styles/GlobalStyles";
+import { Theme } from "@/styles/theme";
 
 export default function ChatOrientadorScreen() {
   const [mensagem, setMensagem] = useState("");
@@ -20,27 +21,21 @@ export default function ChatOrientadorScreen() {
     { role: string; content: string }[]
   >([]);
   const [loading, setLoading] = useState(false);
-
+  
   async function handleSend() {
     if (!mensagem.trim()) return;
 
-    // Adiciona a mensagem do usuário no histórico
-    const novoHistorico = [
-      ...history,
-      { role: "user", content: mensagem }
-    ];
+    const novoHistorico = [...history, { role: "user", content: mensagem }];
     setHistory(novoHistorico);
 
     setMensagem("");
     setLoading(true);
 
-    // Envia para a IA com o histórico
     const resposta = await enviarMensagemIA(mensagem, novoHistorico);
 
-    // Adiciona a resposta da IA ao histórico
     setHistory([
       ...novoHistorico,
-      { role: "assistant", content: resposta }
+      { role: "assistant", content: resposta },
     ]);
 
     setLoading(false);
@@ -48,42 +43,52 @@ export default function ChatOrientadorScreen() {
 
   return (
     <BaseScreen title="Assistente de Carreira">
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={90}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+        enableOnAndroid={true}
+        extraScrollHeight={70}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={{ flex: 1 }}>
-          <ScrollView
-            style={styles.chatContainer}
-            contentContainerStyle={{ paddingBottom: 30 }}
-          >
+          {/* CHAT */}
+          <View style={styles.chatContainer}>
             {history.map((msg, index) => (
               <View
                 key={index}
                 style={[
                   styles.bubble,
-                  msg.role === "user"
-                    ? styles.userBubble
-                    : styles.assistantBubble,
+                  msg.role === "user" ? styles.userBubble : styles.assistantBubble,
                 ]}
               >
-                <Text style={styles.bubbleText}>{msg.content}</Text>
+                <Text
+                  style={[
+                    styles.bubbleText,
+                    msg.role === "user" ? styles.userText : styles.assistantText,
+                  ]}
+                >
+                  {msg.content}
+                </Text>
               </View>
             ))}
 
             {loading && (
-              <ActivityIndicator size="large" style={{ marginTop: 10 }} />
+              <ActivityIndicator
+                size="large"
+                color={Theme.Colors.primary}
+                style={{ marginTop: 10 }}
+              />
             )}
-          </ScrollView>
+          </View>
 
-          {/* INPUT FIXO */}
+          {/* INPUT */}
           <View style={styles.inputContainer}>
             <TextInput
               value={mensagem}
               onChangeText={setMensagem}
               placeholder="Digite sua pergunta..."
-              style={styles.input}
+              placeholderTextColor={Theme.Colors.textSecondary}
+              style={[GlobalStyles.input, styles.input]}
             />
 
             <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
@@ -91,72 +96,82 @@ export default function ChatOrientadorScreen() {
             </TouchableOpacity>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </BaseScreen>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingTop: 50,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 15,
-    textAlign: "center",
-  },
   chatContainer: {
     flex: 1,
     marginBottom: 10,
   },
+
   bubble: {
     maxWidth: "80%",
-    padding: 12,
-    borderRadius: 12,
+    padding: Theme.Spacing.medium,
+    borderRadius: 16,
     marginVertical: 6,
   },
+
   userBubble: {
     alignSelf: "flex-end",
-    backgroundColor: "#4C8BF5",
+    backgroundColor: Theme.Colors.primary,
   },
+
   assistantBubble: {
     alignSelf: "flex-start",
-    backgroundColor: "#e8e8e8",
+    backgroundColor: Theme.Colors.card,
+    borderWidth: 1,
+    borderColor: Theme.Colors.border,
   },
+
   bubbleText: {
-    color: "#000",
-    fontSize: 15,
+    fontSize: Theme.Typography.body,
   },
+  userText: {
+    color: "#fff",
+  },
+  assistantText: {
+    color: Theme.Colors.text,
+  },
+
   inputContainer: {
     flexDirection: "row",
     gap: 10,
     alignItems: "center",
     paddingTop: 10,
     borderTopWidth: 1,
-    borderColor: "#ddd",
+    borderColor: Theme.Colors.border,
+    backgroundColor: Theme.Colors.background,
   },
+
   input: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
     borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
   },
+
   sendButton: {
-    backgroundColor: "#4C8BF5",
-    width: 45,
-    height: 45,
-    borderRadius: 50,
+    backgroundColor: Theme.Colors.primary,
+    width: 48,
+    height: 48,
+    borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: Theme.Colors.primary,
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
   },
+
   sendText: {
     color: "#fff",
     fontSize: 20,
+    marginLeft: 2,
   },
 });
+
+
+
