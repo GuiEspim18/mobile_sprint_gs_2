@@ -1,21 +1,8 @@
+import { Theme } from '@/styles/theme';
 import { Course } from '@/types/Course';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Card from './Card';
-
-const Colors = {
-  primary: "#007AFF",
-  background: "#F7F8FA",
-  text: "#111",
-  textSecondary: "#777",
-  card: "#FFF",
-};
-
-const Spacing = {
-  small: 8,
-  medium: 16,
-  large: 24,
-};
 
 export const CourseCard: React.FC<Course> = ({ title, description, progress }) => (
   <Card>
@@ -33,10 +20,10 @@ export const CourseCard: React.FC<Course> = ({ title, description, progress }) =
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.card,
+    backgroundColor: Theme.Colors.card,
     borderRadius: 12,
-    padding: Spacing.medium,
-    marginBottom: Spacing.large,
+    padding: Theme.Spacing.medium,
+    marginBottom: Theme.Spacing.large,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
@@ -45,40 +32,40 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: Colors.text,
-    marginBottom: Spacing.small,
+    color: Theme.Colors.text,
+    marginBottom: Theme.Spacing.small,
   },
   body: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Theme.Colors.textSecondary,
   },
   caption: {
     fontSize: 12,
-    color: Colors.textSecondary,
-    marginTop: Spacing.small,
+    color: Theme.Colors.textSecondary,
+    marginTop: Theme.Spacing.small,
   },
   progressContainer: {
     height: 8,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.Colors.background,
     borderRadius: 4,
-    marginVertical: Spacing.small,
+    marginVertical: Theme.Spacing.small,
     overflow: "hidden",
   },
   progressBar: {
     height: "100%",
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 4,
   },
   buttonPrimary: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: Spacing.medium,
+    marginTop: Theme.Spacing.medium,
     alignSelf: "flex-start",
   },
   buttonPrimaryText: {
-    color: Colors.card,
+    color: Theme.Colors.card,
     fontWeight: "bold",
   },
   smallButton: {

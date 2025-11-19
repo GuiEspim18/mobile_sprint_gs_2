@@ -102,7 +102,6 @@ export default function ProfileScreen() {
     <BaseScreen title="Meu Perfil">
       <ScrollView contentContainerStyle={styles.container}>
 
-        {/* CARD */}
         <Card>
           <Text style={styles.label}>Nome</Text>
           <Text style={styles.value}>{userData?.name}</Text>
@@ -111,7 +110,6 @@ export default function ProfileScreen() {
           <Text style={styles.value}>{userData?.email}</Text>
         </Card>
 
-        {/* BOTÕES */}
         <PrimaryButton title="Editar Nome" onPress={openNameModal} />
 
         <PrimaryButton title="Alterar Senha" onPress={openPasswordModal} />
@@ -119,7 +117,7 @@ export default function ProfileScreen() {
         <PrimaryButton
           title="Sair"
           onPress={handleLogout}
-          variant="danger" // se você tiver suporte a variantes
+          variant="danger"
         />
       </ScrollView>
 

@@ -1,15 +1,7 @@
+import { Theme } from '@/styles/theme';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Card from './Card';
-
-const Colors = {
-  primary: "#007AFF",
-  card: "#FFF",
-  text: "#111",
-  textSecondary: "#777",
-};
-
-const Spacing = { small: 8, medium: 16, large: 24 };
 
 interface RecommendationCardProps {
   title: string;
@@ -28,24 +20,24 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({ title, d
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.card,
+    backgroundColor: Theme.Colors.card,
     borderRadius: 12,
-    padding: Spacing.medium,
-    marginBottom: Spacing.large,
+    padding: Theme.Spacing.medium,
+    marginBottom: Theme.Spacing.large,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
   },
-  title: { fontSize: 18, fontWeight: 'bold', color: Colors.text, marginBottom: Spacing.small },
-  body: { fontSize: 14, color: Colors.textSecondary },
+  title: { fontSize: 18, fontWeight: 'bold', color: Theme.Colors.text, marginBottom: Theme.Spacing.small },
+  body: { fontSize: 14, color: Theme.Colors.textSecondary },
   buttonPrimary: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: Spacing.medium,
+    marginTop: Theme.Spacing.medium,
     alignSelf: 'flex-start',
   },
-  buttonPrimaryText: { color: Colors.card, fontWeight: 'bold' },
+  buttonPrimaryText: { color: Theme.Colors.card, fontWeight: 'bold' },
 });

@@ -1,11 +1,7 @@
+import { Theme } from '@/styles/theme';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Card from './Card';
-
-const Colors = {
-  card: "#FFF",
-  textSecondary: "#777",
-};
 
 const Spacing = { medium: 16, large: 24 };
 
@@ -21,6 +17,6 @@ export const ODSCard: React.FC = () => (
 );
 
 const styles = StyleSheet.create({
-  body: { fontSize: 14, color: Colors.textSecondary },
-  caption: { fontSize: 12, color: Colors.textSecondary, marginTop: Spacing.medium },
+  body: { fontSize: 14, color: Theme.Colors.textSecondary },
+  caption: { fontSize: 12, color: Theme.Colors.textSecondary, marginTop: Spacing.medium },
 });

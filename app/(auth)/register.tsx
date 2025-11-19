@@ -92,7 +92,6 @@ export default function RegisterScreen({ navigation }: any) {
         placeholderTextColor={Theme.Colors.textSecondary}
       />
 
-      {/* Aqui substitui seu botão antigo pelo PrimaryButton, SEM mudar a lógica */}
       <PrimaryButton title="Registrar" onPress={handleRegister} />
 
       <SecondaryButton title="Já possui uma conta? Faça login" onPress={() => router.replace("/(tabs)")} />

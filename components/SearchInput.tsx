@@ -1,16 +1,6 @@
+import { Theme } from '@/styles/theme';
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-
-const Colors = {
-  text: "#111",
-  textSecondary: "#777",
-  card: "#FFF",
-  background: "#F7F8FA",
-};
-
-const Spacing = {
-  medium: 16,
-};
 
 interface SearchInputProps {
   value: string;
@@ -22,7 +12,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value, onChangeText, p
   <TextInput
     style={styles.input}
     placeholder={placeholder || "Buscar..."}
-    placeholderTextColor={Colors.textSecondary}
+    placeholderTextColor={Theme.Colors.textSecondary}
     value={value}
     onChangeText={onChangeText}
   />
@@ -34,10 +24,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#ddd",
-    paddingHorizontal: Spacing.medium,
+    paddingHorizontal: Theme.Spacing.medium,
     fontSize: 16,
-    color: Colors.text,
-    backgroundColor: Colors.card,
-    marginBottom: Spacing.medium,
+    color: Theme.Colors.text,
+    backgroundColor: Theme.Colors.card,
+    marginBottom: Theme.Spacing.medium,
   },
 });

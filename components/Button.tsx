@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  // === 🔥 Danger Variant ===
   danger: {
     backgroundColor: Theme.Colors.danger,
   },

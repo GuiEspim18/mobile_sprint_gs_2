@@ -1,3 +1,4 @@
+import { Theme } from "@/styles/theme";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Input from "./Input";
 
@@ -43,11 +44,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: Theme.Colors.text,
   },
   box: {
     width: "85%",
-    backgroundColor: "#fff",
+    backgroundColor: Theme.Colors.card,
     borderRadius: 12,
     padding: 20,
   },
@@ -57,20 +58,20 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   input: {
-    backgroundColor: "#f2f2f2",
+    backgroundColor: Theme.Colors.background,
     padding: 12,
     borderRadius: 8,
     marginBottom: 14,
   },
   button: {
-    backgroundColor: "#4a63ff",
+    backgroundColor: Theme.Colors.primary,
     padding: 12,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 6,
   },
   buttonText: {
-    color: "#fff",
+    color: Theme.Colors.card,
     fontWeight: "600",
   },
 });

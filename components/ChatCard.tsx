@@ -1,14 +1,7 @@
+import { Theme } from '@/styles/theme';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-
-const Colors = {
-  primary: "#007AFF",
-  card: "#FFF",
-  text: "#111",
-};
-
-const Spacing = { small: 8, medium: 16, large: 24 };
 
 export const ChatCard: React.FC = () => {
   const router = useRouter();
@@ -23,12 +16,12 @@ export const ChatCard: React.FC = () => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.Colors.primary,
     borderRadius: 12,
-    padding: Spacing.medium,
-    marginBottom: Spacing.large,
+    padding: Theme.Spacing.medium,
+    marginBottom: Theme.Spacing.large,
   },
-  title: { fontSize: 18, fontWeight: 'bold', color: Colors.card },
-  body: { fontSize: 14, color: Colors.card, marginVertical: Spacing.small },
-  action: { fontWeight: 'bold', color: Colors.card, marginTop: Spacing.small },
+  title: { fontSize: 18, fontWeight: 'bold', color: Theme.Colors.card },
+  body: { fontSize: 14, color: Theme.Colors.card, marginVertical: Theme.Spacing.small },
+  action: { fontWeight: 'bold', color: Theme.Colors.card, marginTop: Theme.Spacing.small },
 });

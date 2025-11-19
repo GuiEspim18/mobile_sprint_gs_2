@@ -10,19 +10,16 @@ export default function HomeScreen() {
     <BaseScreen title="Início">
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
 
-        {/* PROGRESSO */}
         <ProgressCard
           title="Seu Progresso"
           description="Continue sua trilha de IA e Sustentabilidade."
           progress={75}
         />
 
-        {/* CHAT */}
         <View style={{ marginTop: 24 }}>
           <ChatCard />
         </View>
 
-        {/* RECOMENDAÇÕES */}
         <Text
           style={{
             fontSize: 18,
@@ -39,7 +36,6 @@ export default function HomeScreen() {
           description="Recomendado com base em sua autoavaliação de Soft Skills."
         />
 
-        {/* ODS */}
         <Text
           style={{
             fontSize: 18,

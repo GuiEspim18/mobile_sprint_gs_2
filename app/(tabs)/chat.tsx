@@ -51,7 +51,6 @@ export default function ChatOrientadorScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={{ flex: 1 }}>
-          {/* CHAT */}
           <View style={styles.chatContainer}>
             {history.map((msg, index) => (
               <View
@@ -81,7 +80,6 @@ export default function ChatOrientadorScreen() {
             )}
           </View>
 
-          {/* INPUT */}
           <View style={styles.inputContainer}>
             <TextInput
               value={mensagem}
