@@ -29,6 +29,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="book" size={size} color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="chat"
         options={{
@@ -43,6 +44,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
         }}
       />
+      
     </Tabs>
   );
 }
