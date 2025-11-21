@@ -1,0 +1,44 @@
+name: OWASP ZAP Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  zap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Criar API de teste simples
+        run: |
+          echo "const express = require('express'); 
+          const app = express(); 
+          app.get('/', (req,res)=>res.send('API para ZAP')); 
+          app.listen(3000);" > server.js
+
+      - name: Instalar Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install express
+
+      - name: Rodar API
+        run: |
+          node server.js &
+          sleep 5
+
+      - name: Rodar ZAP Full Scan
+        run: |
+          docker run -t owasp/zap2docker-stable zap-full-scan.py \
+            -t http://localhost:3000 \
+            -r zap-report.html
+
+      - name: Salvar relatório
+        uses: actions/upload-artifact@v3
+        with:
+          name: zap-report
+          path: zap-report.html
